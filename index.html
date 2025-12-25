@@ -7,7 +7,7 @@
   <meta name="description" content="Urban geomatics & spatial data portfolio. Projects, research, and demos." />
   <style>
     :root{
-      --bg:#f2f2f2;;
+      --bg:#f2f2f2;
       --text:#0f172a;
       --muted:#475569;
       --line:#e2e8f0;
@@ -21,6 +21,7 @@
     a{ color:inherit; text-decoration: none; }
     a:hover{ text-decoration: underline; }
     .wrap{ max-width:var(--max); margin:0 auto; padding:24px; }
+    
     header{
       position: sticky; top:0; background:rgba(255,255,255,.9);
       backdrop-filter: blur(8px);
@@ -36,190 +37,95 @@
     section{ padding:56px 0; border-bottom:1px solid var(--line); }
     section:last-of-type{ border-bottom:none; }
     .kicker{ font-size:12px; text-transform: uppercase; letter-spacing:.12em; color:var(--muted); }
+    
     h1{ font-size:44px; line-height:1.08; margin:10px 0 10px; }
     h2{ font-size:28px; margin:0 0 14px; }
     h3{ font-size:18px; margin:0 0 8px; }
     p{ margin:0 0 12px; color:var(--muted); line-height:1.65; }
-    .hero{
-      display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:stretch;
-    }
-    .heroCard{
-      border:1px solid var(--line); border-radius:var(--r);
-      padding:22px; background:linear-gradient(180deg, #ffffff, #fbfdff);
-    }
-    .heroMedia{
-      border:1px solid var(--line); border-radius:var(--r);
-      background:var(--soft);
-      display:flex; align-items:center; justify-content:center;
-      min-height:220px;
-      overflow:hidden;
-    }
-    .heroMedia span{ color:var(--muted); font-size:14px; padding:18px; text-align:center; }
+
+    /* Hero Styles */
+    .hero{ display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:stretch; }
+    .heroCard{ border:1px solid var(--line); border-radius:var(--r); padding:22px; background:linear-gradient(180deg, #ffffff, #fbfdff); }
+    .heroMedia{ border:1px solid var(--line); border-radius:var(--r); background:var(--soft); display:flex; align-items:center; justify-content:center; min-height:220px; overflow:hidden; }
+    .hero-img { width: 100%; height: auto; display: block; }
+
+    /* Hero Typography */
+    .name { font-size: 48px; line-height: 1.05; margin: 0 0 12px; letter-spacing: .3px; font-weight: 700; }
+    .hero-meta { font-size: 14px; color: var(--muted); display: flex; gap: 10px; margin-bottom: 24px; position: relative; }
+    .tagline { font-size: 13px; color: var(--text); font-weight: 600; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 12px; }
+    .lead { font-size: 16px; color: var(--text); line-height: 1.7; margin: 0 0 32px; max-width: 600px; }
+
+    /* Buttons */
     .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px; border-radius:999px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-size:14px;
-    }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border-radius:999px; border:1px solid var(--line); background:#fff; font-size:14px; }
     .btn.primary{ background:var(--text); color:#fff; border-color:var(--text); }
     .btn:hover{ text-decoration:none; }
     .btn.primary:hover{ opacity:.92; }
 
-    .core{
-      display:grid; grid-template-columns: 1fr 1fr; gap:22px;
-    }
-    .card{
-      border:1px solid var(--line);
-      border-radius:var(--r);
-      background:#fff;
-      overflow:hidden;
-    }
-    .card .media{
-      height:170px; background:var(--soft); border-bottom:1px solid var(--line);
-      display:flex; align-items:center; justify-content:center;
-    }
-    .card .media span{ font-size:13px; color:var(--muted); padding:16px; text-align:center; }
+    /* Core / Callouts */
+    .core{ display:grid; grid-template-columns: 1fr 1fr; gap:22px; }
+    .callout{ border:1px solid var(--line); border-radius:var(--r); background: #fff; padding:16px; }
+    .callout strong{ display:block; margin-bottom:8px; }
+
+    /* Cards & Grids */
+    .card{ border:1px solid var(--line); border-radius:var(--r); background:#fff; overflow:hidden; }
+    .card .media{ height:170px; background:var(--soft); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:center; }
     .card .body{ padding:16px; }
     .meta{ font-size:12px; color:var(--muted); margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; }
+    
     .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-    .chip{
-      font-size:12px; color:var(--muted);
-      padding:5px 10px; border:1px solid var(--line); border-radius:999px;
-      background: #fff;
-    }
+    .chip{ font-size:12px; color:var(--muted); padding:5px 10px; border:1px solid var(--line); border-radius:999px; background: #fff; }
 
-    .projects{
-      display:grid; grid-template-columns: 1fr; gap:18px;
-    }
-    .featured{
-      border:1px solid var(--line); border-radius:var(--r);
-      overflow:hidden; background:#fff;
-      display:grid; grid-template-columns: 1fr; 
-    }
-    .featured .media{
-      height:320px; background:var(--soft); border-bottom:1px solid var(--line);
-      display:flex; align-items:center; justify-content:center;
-      padding:18px;
-    }
-    .featured .media span{ color:var(--muted); text-align:center; font-size:14px; max-width:520px; }
+    .projects{ display:grid; grid-template-columns: 1fr; gap:18px; }
+    .featured{ border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:#fff; display:grid; grid-template-columns: 1fr; }
+    .featured .media{ height:320px; background:var(--soft); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:center; padding:18px; }
     .featured .body{ padding:18px 18px 20px; }
-    .grid3{
-      display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;
-    }
+    
+    .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
 
-    .researchLayout{
-      display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; align-items:start;
-    }
-    .callout{
-      border:1px solid var(--line); border-radius:var(--r);
-      background: #fff; padding:16px;
-    }
-    .callout strong{ display:block; margin-bottom:8px; }
-    .fig{
-      border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:#fff;
-      margin:14px 0;
-    }
-    .fig .img{
-      height:220px; background:var(--soft);
-      display:flex; align-items:center; justify-content:center;
-      border-bottom:1px solid var(--line);
-    }
-    .fig .img span{ color:var(--muted); font-size:13px; padding:16px; text-align:center; }
+    /* Research Layout */
+    .researchLayout{ display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; align-items:start; }
+    .fig{ border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:#fff; margin:14px 0; }
+    .fig .img{ height:220px; background:var(--soft); display:flex; align-items:center; justify-content:center; border-bottom:1px solid var(--line); }
     .fig .cap{ padding:12px 14px; font-size:13px; color:var(--muted); line-height:1.5; }
     .twoCols{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
     .list{ margin:0; padding-left:18px; color:var(--muted); line-height:1.7; }
     .list li{ margin:6px 0; }
 
-    .cvGrid{
-      display:grid; grid-template-columns: 1fr 1fr; gap:16px;
-    }
-    .cvItem{
-      border:1px solid var(--line); border-radius:var(--r); padding:16px; background:#fff;
-    }
+    /* CV Grid */
+    .cvGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+    .cvItem{ border:1px solid var(--line); border-radius:var(--r); padding:16px; background:#fff; }
+    
     footer{ padding:34px 0 18px; color:var(--muted); font-size:13px; }
 
+    /* Images */
+    .banner-img { width: auto; height: 320px; display: block; }
+    .below-img { width: auto; height: 170px; display: block; }
+    .hk-banner-img { width: auto; height: 320px; display: block; }
+    .hk-below-img { height: 220px; width: auto; display: block; margin: 0 auto; max-width: 100%; object-fit: cover; }
+
+    /* --- MOBILE OPTIMIZATION --- */
     @media (max-width: 860px){
-      h1{ font-size:38px; }
-      .hero, .core, .researchLayout, .cvGrid{ grid-template-columns: 1fr; }
-      .grid3{ grid-template-columns: 1fr; }
-      .featured .media{ height:260px; }
+      /* 1. 修正標題大小 */
+      h1, .name { font-size:36px; }
+
+      /* 2. 修正排版：所有網格轉為單欄 */
+      .hero, .core, .researchLayout, .cvGrid, .grid3, .twoCols { grid-template-columns: 1fr; }
+      
+      /* 3. 優化導覽列：垂直排列 */
+      .nav { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .links { font-size: 13px; gap: 10px; }
+
+      /* 4. 縮小邊距 */
+      .wrap { padding: 16px; }
+      .heroCard { padding: 24px 18px; }
+      .hero-meta { margin-bottom: 16px; flex-wrap: wrap; }
+
+      /* 5. 圖片優化 */
+      .featured .media { height: 220px; }
+      .banner-img, .hk-banner-img { height: 220px; width: auto; max-width: 100%; object-fit: contain; }
+      .hk-below-img { width: 100%; height: auto; max-height: 300px; }
     }
-
-    /* --- HERO typography spacing --- */
-
-    .name {
-        font-size: 48px;
-        line-height: 1.05;
-        margin: 0 0 12px; /* 稍微增加一點與 meta 的距離 */
-        letter-spacing: .3px;
-        font-weight: 700; /* 確保標題夠重 */
-    }
-
-    .hero-meta {
-        font-size: 14px;
-        color: var(--muted);
-        display: flex;
-        gap: 10px;
-        margin-bottom: 24px; /* 這裡拉開距離，讓身分區塊結束 */
-        position: relative;  /* 為了放那一條線 */
-    }
-
-    .tagline {
-        font-size: 13px; /* 稍微縮小一點，更精緻 */
-        color: var(--primary); /* 建議用主色調，或是比 muted 深一點的顏色 */
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: .12em;
-        margin-top: 0;      /* 不需要 top margin，由 meta 推開 */
-        margin-bottom: 12px;   /* 🌟 改動 2: 縮小這裡的距離，讓它跟內文是一組的 */
-        
-        /* 移除原本這裡的 ::after */
-    }
-
-    .lead {
-        font-size: 16px;
-        color: var(--text-body); /* 確保比 muted 深，閱讀性較高 */
-        line-height: 1.7; /* 稍微增加行高，增加優雅感 */
-        margin: 0 0 32px; /* 增加與按鈕的距離 */
-        max-width: 600px; /* 限制寬度，避免文字太長難閱讀 */
-    }
-
-    /* 確保圖片自適應容器寬度，並且不會變形 */
-    .hero-img {
-        width: 100%;        /* 讓圖片填滿容器寬度 */
-        height: auto;       /* 高度自動計算，維持比例 */
-        display: block;     /* 移除圖片底部的預設空白 */
-    }
-
-    .banner-img {
-        width: auto;        /* 讓圖片填滿容器寬度 */
-        height: 320px;       /* 高度自動計算，維持比例 */
-        display: block;     /* 移除圖片底部的預設空白 */
-    }
-
-    .below-img {
-        width: auto;        /* 讓圖片填滿容器寬度 */
-        height: 170px;       /* 高度自動計算，維持比例 */
-        display: block;     /* 移除圖片底部的預設空白 */
-    }
-
-    .hk-banner-img {
-        width: auto;        /* 讓圖片填滿容器寬度 */
-        height: 320px;       /* 高度自動計算，維持比例 */
-        display: block;     /* 移除圖片底部的預設空白 */
-    }
-
-    .hk-below-img {
-        height: 220px;       /* 維持固定高度 */
-        width: auto;         /* 寬度自動 */
-        display: block;      /* 保持區塊屬性 */
-        margin: 0 auto;      /* 關鍵：左右自動推齊，就會置中 */
-        max-width: 100%;     /* 安全閥：確保圖片不會比格子還寬 */
-        object-fit: cover; /* 確保整張圖都看得到，不會變形 */
-    }
-
   </style>
 </head>
 
@@ -238,7 +144,6 @@
   </header>
 
   <main>
-    <!-- HERO -->
     <section>
       <div class="wrap hero">
         <div class="heroCard">
@@ -261,15 +166,10 @@
               <a class="btn" href="#research">Hong Kong Research</a>
               <a class="btn" href="#contact">Contact</a>
             </div>
-   
         </div>
 
-        <div class="heroMedia" aria-label="Hero image placeholder">
-          <img class="hero-img" src="asset/hk15minisochone.png">
-           <!-- <span>
-            Optional: insert a quiet, high-impact visual here.<br/>
-            Suggested: a cropped Hong Kong misfit map or your night-time lighting map.
-          </span> -->
+        <div class="heroMedia" aria-label="Hero image">
+          <img class="hero-img" src="asset/hk15minisochone.png" alt="Hero visualization">
         </div>
       </div>
 
@@ -292,7 +192,6 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
     <section id="projects">
       <div class="wrap">
         <div class="kicker">Selected work</div>
@@ -301,8 +200,8 @@
         <div class="projects">
 
           <article class="featured">
-            <div class="media" aria-label="Featured project image placeholder">
-              <img class="banner-img" src="asset/hkresearch.png">
+            <div class="media">
+              <img class="banner-img" src="asset/hkresearch.png" alt="HK Research Banner">
             </div>
             <div class="body">
               <div class="kicker">Research project</div>
@@ -326,20 +225,23 @@
             </div>
           </article>
 
-          <!-- 3-up grid -->
           <div class="grid3">
 
             <article class="card">
-              <div class="media" aria-label="Project image placeholder">
-                <img class="below-img" src="asset/tploadarea.png">
+              <div class="media">
+                <img class="below-img" src="asset/tploadarea.png" alt="Loading zone decision system">
               </div>
               <div class="body">
                 <div class="kicker">Competition</div>
-                <h3>Urban Loading/Unloading Decision System</h3>
+                <h3 style="margin-bottom:6px;">Smart Urban Loading Decision System</h3>
+                
+                <div style="margin-bottom:10px; font-size:13px; color:#b45309; font-weight:600; line-height:1.4;">
+                   🏆 3rd Place, AI x Smart City Data Competition
+                   <span style="font-weight:400; color:var(--muted); font-size:12px;">(Ministry of Economic Affairs)</span>
+                </div>
 
                 <p>
-                  A prototype decision-support system developed for a city data competition,
-                  demonstrating a practical modeling-to-demo pipeline.
+                  A prototype decision-support system demonstrating a practical modeling-to-demo pipeline for urban logistics.
                 </p>
                 <div class="btnRow">
                   <a class="btn primary" href="https://youtu.be/b_DjMk-42F0" target="_blank" rel="noopener">Watch demo</a>
@@ -351,28 +253,27 @@
             </article>
 
             <article class="card">
-              <div class="media" aria-label="Project image placeholder">
-                <img class="below-img" src="asset/nightmap.png">
+              <div class="media">
+                <img class="below-img" src="asset/nightmap.png" alt="Night map">
               </div>
               <div class="body">
                 <div class="kicker">WebGIS</div>
                 <h3>NTU Night-time Lighting Map</h3>
                 <p>
-                  An interactive map documenting campus lighting conditions to support pedestrian safety discussions
-                  in a data-poor infrastructure context.
+                  An interactive map documenting campus lighting conditions to support pedestrian safety discussions.
                 </p>
                 <div class="btnRow">
                   <a class="btn primary" href="https://geopeper.github.io/ntu_light_map/" target="_blank" rel="noopener">Live demo</a>
                 </div>
                 <div class="meta">
-                  <span>Interactive map</span><span>Evidence for governance</span>
+                  <span>Interactive map</span><span>Evidence</span>
                 </div>
               </div>
             </article>
 
             <article class="card">
-              <div class="media" aria-label="Project image placeholder">
-                <img class="below-img" src="asset/geologger.png">
+              <div class="media">
+                <img class="below-img" src="asset/geologger.png" alt="GeoLogger App">
               </div>
               <div class="body">
                 <div class="kicker">iOS app</div>
@@ -388,14 +289,12 @@
                 </div>
               </div>
             </article>
-
             
           </div>
         </div>
       </div>
     </section>
 
-    <!-- RESEARCH (HK) -->
     <section id="research">
     <div class="wrap">
         <div class="kicker">Research highlight</div>
@@ -412,7 +311,7 @@
             </div>
 
             <div class="fig">
-            <img class="hk-banner-img" src="asset/hkresearchbanner.png">
+            <img class="hk-banner-img" src="asset/hkresearchbanner.png" alt="Figure 1">
             <div class="cap">
                 Figure 1. Spatial misfit between theoretical 15-minute walking catchments and observed trips.
             </div>
@@ -420,11 +319,11 @@
 
             <div class="twoCols">
             <div class="fig">
-                <img class="hk-below-img" src="asset/hk15mingi.png">
+                <img class="hk-below-img" src="asset/hk15mingi.png" alt="Figure 2">
                 <div class="cap">Figure 2. Hotspots of persistent misfit identified via Gi* statistics.</div>
             </div>
             <div class="fig">
-                <img class="hk-below-img" src="asset/hk15minregression.png">
+                <img class="hk-below-img" src="asset/hk15minregression.png" alt="Figure 3">
                 <div class="cap">Figure 3. Regression Analysis of Key Correlates of Spatial Misfit (simplified).</div>
             </div>
             </div>
@@ -439,7 +338,6 @@
                 <li><b>Modeling:</b> Multinomial logistic regression</li>
                 <li><b>Output:</b> Maps + poster + interpretable narrative</li>
             </ul>
-
             </aside>
 
             <div class="callout">
@@ -464,7 +362,6 @@
         </div> </div>
     </section>
 
-    <!-- CV -->
     <section id="cv">
       <div class="wrap">
         <div class="kicker">Background</div>
@@ -474,12 +371,14 @@
           <div class="cvItem">
             <h3>Education</h3>
             
-            <div style="margin-top:6px; margin-bottom:6px;">
-              <div style="font-weight:700; font-size:16px; margin-bottom:4px; color:var(--text);">
+            <div style="margin-bottom:14px;">
+              <div style="font-weight:700; font-size:16px; margin-bottom:2px; color:var(--text);">
                 National Taiwan University
               </div>
-              <div style="margin-bottom:0px; line-height:1.6;">
-                Geography & Political Science (Double major) <br>
+              <div style="margin-bottom:2px;">
+                Geography & Political Science (Double major)
+              </div>
+              <div style="color:var(--muted); font-size:13px; font-style:italic;">
                 2022–2026 (expected)
               </div>
             </div>
@@ -488,12 +387,9 @@
               <strong>GPA:</strong> 4.07 / 4.3 (Top 6%)
             </p>
 
-            <p style="margin-bottom:0px; line-height:1;">
-              <strong>Relevant:</strong>
-            </p>
-
-            <div class="chips">
-              <span class="chip">Cartography and GIS</span>
+            <div style="font-size:14px; font-weight:600; margin-bottom:6px;">Relevant Coursework</div>
+            <div class="chips" style="margin-top:0;">
+              <span class="chip">Cartography & GIS</span>
               <span class="chip">Spatial Analysis</span>
               <span class="chip">Statistics</span>
               <span class="chip">WebGIS</span>
@@ -511,14 +407,12 @@
           </div>
         </div>
 
-        <!-- Optional: provide a downloadable PDF resume -->
         <div class="btnRow" style="margin-top:14px;">
           <a class="btn primary" href="asset/general_resume.pdf" target="_blank" rel="noopener">Download resume (PDF)</a>
         </div>
       </div>
     </section>
 
-    <!-- SKILLS -->
     <section id="skills">
       <div class="wrap">
         <div class="kicker">Appendix</div>
@@ -543,7 +437,6 @@
               <span class="chip">Data cleaning</span>
               <span class="chip">Web workflows</span>
               <span class="chip">Swift (iOS)</span>
-
             </div>
           </div>
           <div class="cvItem">
@@ -567,7 +460,6 @@
       </div>
     </section>
 
-    <!-- CONTACT -->
     <section id="contact">
       <div class="wrap">
         <div class="kicker">Get in touch</div>
