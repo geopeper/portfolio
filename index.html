@@ -1,494 +1,739 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Yu-Chi Su — Portfolio</title>
-  <meta name="description" content="Urban geomatics & spatial data portfolio. Projects, research, and demos." />
-  <style>
-    :root{
-      --bg:#f2f2f2;
-      --text:#0f172a;
-      --muted:#475569;
-      --line:#e2e8f0;
-      --soft:#f8fafc;
-      --accent:#1f2937;
-      --max: 980px;
-      --r: 16px;
-    }
-    *{ box-sizing:border-box; }
-    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
-    a{ color:inherit; text-decoration: none; }
-    a:hover{ text-decoration: underline; }
-    .wrap{ max-width:var(--max); margin:0 auto; padding:24px; }
-    
-    header{
-      position: sticky; top:0; background:rgba(255,255,255,.9);
-      backdrop-filter: blur(8px);
-      border-bottom:1px solid var(--line);
-      z-index: 50;
-    }
-    .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .brand{ font-weight:700; letter-spacing:.2px; }
-    .links{ display:flex; gap:14px; flex-wrap:wrap; font-size:14px; color:var(--muted); }
-    .links a{ padding:8px 10px; border-radius:999px; }
-    .links a:hover{ background:var(--soft); text-decoration:none; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuchi Su — GIS · Transport · Urban Planning</title>
+<meta name="description" content="Portfolio of Yuchi Su — geospatial AI, transport, and urban planning. GPS mobility analysis, LLM agent simulation, WebGIS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,300..600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F6F1;
+  --paper-2:#EFEEE7;
+  --ink:#20242B;
+  --muted:#6A7077;
+  --hairline:#DCD9CF;
+  --road:#E3E1D8;
+  --road-strong:#D2CFC4;
+  --park:#E3EADD;
+  --l1:#C8333A; /* route simulation */
+  --l2:#DD7A2F; /* 15-min cities */
+  --l3:#2D6CB5; /* urban loading */
+  --l4:#51489B; /* night map */
+  --l5:#3E8A5E; /* geologger */
+  --max:1120px;
+  --serif:"Source Serif 4", Georgia, serif;
+  --sans:"Archivo", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--l1);color:#fff}
+a{color:inherit}
+img{display:block;max-width:100%}
 
-    section{ padding:56px 0; border-bottom:1px solid var(--line); }
-    section:last-of-type{ border-bottom:none; }
-    .kicker{ font-size:12px; text-transform: uppercase; letter-spacing:.12em; color:var(--muted); }
-    
-    h1{ font-size:44px; line-height:1.08; margin:10px 0 10px; }
-    h2{ font-size:28px; margin:0 0 14px; }
-    h3{ font-size:18px; margin:0 0 8px; }
-    p{ margin:0 0 12px; color:var(--muted); line-height:1.65; }
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 32px;
+  background:color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s;
+}
+.nav.scrolled{border-bottom-color:var(--hairline)}
+.nav-name{font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:.14em;text-decoration:none}
+.nav-coord{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{
+  font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;text-decoration:none;color:var(--ink);
+  padding-bottom:3px;border-bottom:2px solid transparent;transition:border-color .2s;
+}
+.nav-links a:hover{border-bottom-color:var(--l1)}
+@media(max-width:720px){.nav-coord{display:none}.nav{padding:14px 20px}.nav-links{gap:18px}}
 
-    /* Hero Styles */
-    .hero{ display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:stretch; }
-    .heroCard{ border:1px solid var(--line); border-radius:var(--r); padding:22px; background:linear-gradient(180deg, #ffffff, #fbfdff); }
-    .heroMedia{ border:1px solid var(--line); border-radius:var(--r); background:var(--soft); display:flex; align-items:center; justify-content:center; min-height:220px; overflow:hidden; }
-    .hero-img { width: 100%; height: auto; display: block; }
+/* ---------- hero ---------- */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+body.fine-pointer,body.fine-pointer *{cursor:none}
+.hero-map{position:absolute;inset:0;z-index:0}
+.hero-inner{
+  position:relative;z-index:2;text-align:center;
+  padding:120px 24px 80px;max-width:880px;
+}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--muted);
+  margin-bottom:26px;
+}
+.hero h1{
+  font-family:var(--sans);
+  font-weight:780;
+  font-variation-settings:"wdth" 118;
+  font-size:clamp(54px,9.5vw,108px);
+  line-height:1;
+  letter-spacing:.04em;
+  margin-bottom:16px;
+}
+.hero-tagline{
+  font-family:var(--serif);font-style:italic;font-size:clamp(17px,2.2vw,22px);
+  color:var(--muted);margin-bottom:30px;
+}
+.hero-fields{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px;
+}
+.field-badge{
+  font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  padding:7px 16px;border-radius:999px;border:1.5px solid var(--ink);
+  display:inline-flex;align-items:center;gap:8px;background:color-mix(in srgb, var(--paper) 75%, transparent);
+}
+.field-badge .dot{width:9px;height:9px;border-radius:50%}
+.hero-sub{
+  font-size:18px;color:var(--ink);max-width:620px;margin:0 auto 16px;
+}
+.hero-meta{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em}
+.scroll-hint{
+  position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);
+  text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-hint .tick{width:1px;height:34px;background:var(--muted);animation:drip 2.2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1)}100%{transform:scaleY(.2);transform-origin:bottom}}
 
-    /* Hero Typography */
-    .name { font-size: 48px; line-height: 1.05; margin: 0 0 12px; letter-spacing: .3px; font-weight: 700; }
-    .hero-meta { font-size: 14px; color: var(--muted); display: flex; gap: 10px; margin-bottom: 24px; position: relative; }
-    .tagline { font-size: 13px; color: var(--text); font-weight: 600; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 12px; }
-    .lead { font-size: 16px; color: var(--text); line-height: 1.7; margin: 0 0 32px; max-width: 600px; }
+/* custom pin cursor */
+.pin-cursor{
+  position:fixed;z-index:200;pointer-events:none;
+  width:30px;height:42px;
+  transform:translate(-50%,-100%);
+  opacity:0;transition:opacity .2s, scale .15s;
+  filter:drop-shadow(0 3px 4px rgba(32,36,43,.25));
+}
+.pin-cursor.on{opacity:1}
+.pin-cursor.lift{scale:1.25}
 
-    /* Buttons */
-    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border-radius:999px; border:1px solid var(--line); background:#fff; font-size:14px; }
-    .btn.primary{ background:var(--text); color:#fff; border-color:var(--text); }
-    .btn:hover{ text-decoration:none; }
-    .btn.primary:hover{ opacity:.92; }
+/* ---------- shared section ---------- */
+section{padding:110px 32px}
+.wrap{max-width:var(--max);margin:0 auto}
+.sec-head{margin-bottom:64px}
+.sec-eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--muted);
+  text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px;
+}
+.sec-eyebrow::after{content:"";flex:1;height:1px;background:var(--hairline)}
+.sec-title{
+  font-family:var(--sans);font-weight:700;font-variation-settings:"wdth" 108;
+  font-size:clamp(30px,4vw,44px);letter-spacing:-.01em;line-height:1.1;
+}
+.sec-lede{margin-top:16px;max-width:640px;color:var(--muted);font-size:17px}
+@media(max-width:720px){section{padding:80px 20px}}
 
-    /* Core / Callouts */
-    .core{ display:grid; grid-template-columns: 1fr 1fr; gap:22px; }
-    .callout{ border:1px solid var(--line); border-radius:var(--r); background: #fff; padding:16px; }
-    .callout strong{ display:block; margin-bottom:8px; }
+/* ---------- route diagram ---------- */
+.route{
+  margin:56px 0 90px;
+  position:relative;
+}
+.route-line{
+  position:absolute;top:11px;left:10%;right:10%;height:3px;
+  background:var(--road-strong);border-radius:2px;
+}
+.route-stops{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  position:relative;list-style:none;
+}
+.route-stop{display:flex;flex-direction:column;align-items:center;min-width:0}
+.route-stop a{
+  text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:10px;
+  width:100%;
+}
+.stop-dot{
+  width:22px;height:22px;border-radius:50%;background:var(--paper);
+  border:3.5px solid var(--stop-c,var(--ink));
+  transition:transform .2s, background .2s;position:relative;z-index:1;flex:none;
+}
+.route-stop a:hover .stop-dot{transform:scale(1.25)}
+.route-stop.active .stop-dot{background:var(--stop-c,var(--ink))}
+.stop-label{
+  font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--muted);line-height:1.35;text-align:center;
+  max-width:100%;padding:0 6px;transition:color .2s;
+}
+.route-stop a:hover .stop-label,.route-stop.active .stop-label{color:var(--ink)}
+@media(max-width:720px){
+  .stop-label{font-size:10px;letter-spacing:.02em}
+}
 
-    /* Cards & Grids */
-    .card{ border:1px solid var(--line); border-radius:var(--r); background:#fff; overflow:hidden; }
-    .card .media{ height:170px; background:var(--soft); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:center; }
-    .card .body{ padding:16px; }
-    .meta{ font-size:12px; color:var(--muted); margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; }
-    
-    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-    .chip{ font-size:12px; color:var(--muted); padding:5px 10px; border:1px solid var(--line); border-radius:999px; background: #fff; }
+/* ---------- project ---------- */
+.project{
+  display:grid;grid-template-columns:1.15fr 1fr;gap:64px;align-items:center;
+  padding:72px 0;border-top:1px solid var(--hairline);
+}
+.project:first-of-type{border-top:none;padding-top:0}
+.project.flip .p-media{order:2}
+.p-media{position:relative}
+.tile{
+  position:relative;border:1px solid var(--hairline);background:var(--paper-2);
+  aspect-ratio:16/10.5;overflow:hidden;
+}
+.tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.p-media:hover .tile img{transform:scale(1.035)}
+.tile .corner{position:absolute;width:14px;height:14px;border-color:var(--ink);border-style:solid;z-index:2}
+.tile .c-tl{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.tile .c-tr{top:-1px;right:-1px;border-width:2px 2px 0 0}
+.tile .c-bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px}
+.tile .c-br{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.tile.placeholder{display:flex;align-items:center;justify-content:center}
+.tile.placeholder::before{
+  content:attr(data-note);
+  font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;
+  padding:0 24px;text-align:center;
+}
+.tile.placeholder{background:
+  repeating-linear-gradient(45deg,var(--paper-2),var(--paper-2) 10px,#EAE8DF 10px,#EAE8DF 11px)}
+.tile-caption{
+  display:flex;justify-content:space-between;margin-top:10px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;
+}
+/* award sash — diagonal band across the tile's top-left corner */
+.sash{
+  position:absolute;top:-6px;left:-6px;width:200px;height:200px;
+  overflow:hidden;z-index:3;pointer-events:none;
+}
+.sash-band{
+  position:absolute;top:50px;left:-76px;width:300px;
+  transform:rotate(-45deg);
+  background:linear-gradient(180deg,#CC9D30 0%,#B5861F 100%);
+  color:#FFF9EC;text-align:center;
+  padding:8px 0 9px;
+  box-shadow:0 4px 12px rgba(32,36,43,.28);
+  border-top:1px solid rgba(255,249,236,.45);
+  border-bottom:1px solid rgba(122,89,18,.6);
+}
+.sash .r-place{
+  font-family:var(--sans);font-weight:800;font-size:14px;letter-spacing:.22em;
+  display:block;line-height:1.2;
+}
+.sash .r-title{
+  font-family:var(--sans);font-weight:600;font-size:8px;letter-spacing:.08em;
+  text-transform:uppercase;display:block;line-height:1.5;opacity:.95;
+}
+.sash .r-org{
+  font-family:var(--mono);font-size:7px;letter-spacing:.04em;
+  display:block;line-height:1.4;opacity:.8;
+}
+@media(max-width:880px){
+  .sash{width:170px;height:170px}
+  .sash-band{top:40px;left:-86px}
+}
+.p-eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;margin-bottom:18px;color:var(--muted);
+}
+.p-eyebrow .line-chip{
+  width:26px;height:8px;border-radius:4px;background:var(--p-c,var(--ink));flex:none;
+}
+.p-eyebrow .award{color:var(--p-c,var(--ink));font-weight:500}
+.project h3{
+  font-family:var(--sans);font-weight:700;font-variation-settings:"wdth" 106;
+  font-size:clamp(24px,2.6vw,31px);line-height:1.18;letter-spacing:-.005em;
+  margin-bottom:18px;
+}
+.p-desc{font-size:16.5px;margin-bottom:18px}
+.p-note{
+  font-size:14px;color:var(--muted);font-style:italic;margin-bottom:20px;
+  padding-left:14px;border-left:2px solid var(--p-c,var(--hairline));
+}
+.p-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px;list-style:none}
+.p-tags li{
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--muted);
+  padding:4px 10px;border:1px solid var(--hairline);border-radius:3px;background:var(--paper);
+}
+.p-links{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;padding:11px 20px;border:1.5px solid var(--ink);border-radius:3px;
+  display:inline-flex;align-items:center;gap:8px;transition:background .2s,color .2s,transform .15s;
+  background:transparent;
+}
+.btn:hover{background:var(--ink);color:var(--paper);transform:translateY(-2px)}
+.btn.primary{background:var(--p-c,var(--ink));border-color:var(--p-c,var(--ink));color:#fff}
+.btn.primary:hover{filter:brightness(.88);background:var(--p-c,var(--ink))}
+@media(max-width:880px){
+  .project{grid-template-columns:1fr;gap:32px;padding:56px 0}
+  .project.flip .p-media{order:0}
+}
 
-    .projects{ display:grid; grid-template-columns: 1fr; gap:18px; }
-    .featured{ border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:#fff; display:grid; grid-template-columns: 1fr; }
-    .featured .media{ height:320px; background:var(--soft); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:center; padding:18px; }
-    .featured .body{ padding:18px 18px 20px; }
-    
-    .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
+/* ---------- CV ---------- */
+#cv{background:var(--paper-2);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.cv-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:72px;align-items:start}
+.cv-block+.cv-block{margin-top:56px}
+.cv-label{
+  font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:22px;display:flex;align-items:center;gap:12px;
+}
+.cv-label::after{content:"";flex:1;height:1px;background:var(--hairline)}
+.edu-school{font-family:var(--sans);font-weight:700;font-size:21px;margin-bottom:4px}
+.edu-degree{font-size:16px;margin-bottom:6px}
+.edu-meta{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:18px}
+.edu-gpa{
+  display:inline-block;font-family:var(--mono);font-size:13px;font-weight:500;
+  border:1px solid var(--ink);border-radius:3px;padding:5px 12px;margin-bottom:20px;
+}
+.edu-courses{font-size:15px;color:var(--muted)}
+.edu-courses strong{color:var(--ink);font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px}
+.edu-exchange{margin-top:22px;padding-top:22px;border-top:1px dashed var(--hairline)}
+.edu-exchange .edu-school{font-size:17px}
 
-    /* Research Layout */
-    .researchLayout{ display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; align-items:start; }
-    .fig{ border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:#fff; margin:14px 0; }
-    .fig .img{ height:220px; background:var(--soft); display:flex; align-items:center; justify-content:center; border-bottom:1px solid var(--line); }
-    .fig .cap{ padding:12px 14px; font-size:13px; color:var(--muted); line-height:1.5; }
-    .twoCols{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-    .list{ margin:0; padding-left:18px; color:var(--muted); line-height:1.7; }
-    .list li{ margin:6px 0; }
+.timeline{list-style:none;position:relative;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:3px;background:var(--road-strong);border-radius:2px}
+.timeline li{position:relative;padding-bottom:30px}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{
+  content:"";position:absolute;left:-26px;top:5px;width:15px;height:15px;border-radius:50%;
+  background:var(--paper-2);border:3px solid var(--ink);
+}
+.tl-year{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em;margin-bottom:3px}
+.tl-role{font-family:var(--sans);font-weight:650;font-size:16.5px;line-height:1.3}
+.tl-org{font-size:15px;color:var(--muted)}
 
-    /* CV Grid */
-    .cvGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
-    .cvItem{ border:1px solid var(--line); border-radius:var(--r); padding:16px; background:#fff; }
-    
-    footer{ padding:34px 0 18px; color:var(--muted); font-size:13px; }
+.skill-group{margin-bottom:26px}
+.skill-group h4{font-family:var(--sans);font-size:13px;font-weight:650;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+.chips li{
+  font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:999px;
+  border:1px solid var(--hairline);background:var(--paper);
+}
+@media(max-width:880px){.cv-grid{grid-template-columns:1fr;gap:56px}}
 
-    /* Images */
-    .banner-img { width: auto; height: 320px; display: block; }
-    .below-img { width: auto; height: 170px; display: block; }
-    .hk-banner-img { width: auto; height: 320px; display: block; }
-    .hk-below-img { height: 220px; width: auto; display: block; margin: 0 auto; max-width: 100%; object-fit: cover; }
+/* ---------- contact ---------- */
+#contact{padding-bottom:60px}
+.contact-inner{text-align:center;max-width:640px;margin:0 auto}
+.contact-inner h2{
+  font-family:var(--sans);font-weight:700;font-variation-settings:"wdth" 110;
+  font-size:clamp(30px,4.5vw,48px);margin-bottom:18px;letter-spacing:-.01em;
+}
+.contact-inner p{color:var(--muted);margin-bottom:34px}
+.contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:70px}
+.footer-line{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  border-top:1px solid var(--hairline);padding-top:24px;max-width:var(--max);margin:0 auto;
+  font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.06em;
+}
 
-    /* --- MOBILE OPTIMIZATION --- */
-    @media (max-width: 860px){
-      /* 1. 修正標題大小 */
-      h1, .name { font-size:36px; }
-
-      /* 2. 修正排版：所有網格轉為單欄 */
-      .hero, .core, .researchLayout, .cvGrid, .grid3, .twoCols { grid-template-columns: 1fr; }
-      
-      /* 3. 優化導覽列：垂直排列 */
-      .nav { flex-direction: column; align-items: flex-start; gap: 12px; }
-      .links { font-size: 13px; gap: 10px; }
-
-      /* 4. 縮小邊距 */
-      .wrap { padding: 16px; }
-      .heroCard { padding: 24px 18px; }
-      .hero-meta { margin-bottom: 16px; flex-wrap: wrap; }
-
-      /* 5. 圖片優化 */
-      .featured .media { height: 220px; }
-      .banner-img, .hk-banner-img { height: 220px; width: auto; max-width: 100%; object-fit: contain; }
-      .hk-below-img { width: 100%; height: auto; max-height: 300px; }
-    }
-  </style>
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .tile img{transition:none}
+  html{scroll-behavior:auto}
+  .scroll-hint .tick{animation:none}
+}
+</style>
 </head>
-
 <body>
-  <header>
-    <div class="wrap nav">
-      <div class="brand">Yu-Chi Su</div>
-      <nav class="links" aria-label="Primary navigation">
-        <a href="#projects">Projects</a>
-        <a href="#research">Research</a>
-        <a href="#cv">CV</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
-      </nav>
+
+<nav class="nav" id="nav">
+  <a class="nav-name" href="#top">YUCHI&nbsp;SU</a>
+  <span class="nav-coord">25.0330° N, 121.5654° E · TAIPEI</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <svg class="hero-map" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <rect width="1440" height="900" fill="var(--paper)"/>
+    <!-- minor street grid -->
+    <g stroke="var(--road)" stroke-width="2">
+      <path d="M0 80H1440M0 170H1440M0 350H1440M0 440H1440M0 620H1440M0 710H1440M0 800H1440"/>
+      <path d="M120 0V900M210 0V900M390 0V900M480 0V900M660 0V900M750 0V900M930 0V900M1020 0V900M1200 0V900M1290 0V900"/>
+    </g>
+    <!-- park block -->
+    <rect x="932" y="442" width="266" height="176" rx="6" fill="var(--park)"/>
+    <text x="1065" y="535" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" letter-spacing="3" fill="#9AAE93">PARK</text>
+    <!-- arterials -->
+    <g stroke="var(--road-strong)" stroke-width="7" stroke-linecap="round">
+      <path d="M0 260H1440"/>
+      <path d="M0 530H1440"/>
+      <path d="M300 0V900"/>
+      <path d="M570 0V900"/>
+      <path d="M840 0V900"/>
+      <path d="M1110 0V900"/>
+    </g>
+    <!-- diagonal avenue + river -->
+    <path d="M-40 860 L 620 300 L 1480 120" stroke="var(--road-strong)" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M-40 40 C 300 130, 420 30, 760 70 S 1300 -10, 1480 60" stroke="#D7E2E4" stroke-width="16" fill="none" opacity=".8"/>
+    <!-- street labels -->
+    <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#B9B5A8" letter-spacing="2">
+      <text x="60" y="250">XINYI RD.</text>
+      <text x="1240" y="520">HEPING E. RD.</text>
+      <text x="312" y="96" transform="rotate(90 312 96)">FUXING S. RD.</text>
+      <text x="852" y="640" transform="rotate(90 852 640)">JIANGUO S. RD.</text>
+    </g>
+    <!-- animated light-rail lines are injected here -->
+    <g id="trains" fill="none" stroke-linecap="round"></g>
+  </svg>
+
+  <div class="hero-inner">
+    <p class="hero-eyebrow reveal in">PORTFOLIO · TAIPEI, TAIWAN · 25.0330° N, 121.5654° E</p>
+    <h1 class="reveal in">YUCHI&nbsp;SU</h1>
+    <p class="hero-tagline reveal in">Mapping how cities actually move.</p>
+    <div class="hero-fields reveal in">
+      <span class="field-badge"><span class="dot" style="background:var(--l1)"></span>GIS</span>
+      <span class="field-badge"><span class="dot" style="background:var(--l3)"></span>Transport</span>
+      <span class="field-badge"><span class="dot" style="background:var(--l5)"></span>Urban Planning</span>
     </div>
-  </header>
+    <p class="hero-sub reveal in">Geography student at National Taiwan University working at the intersection of geospatial analysis, mobility behavior, and AI — from 440k GPS records in Hong Kong to LLM agents walking the streets of Taipei.</p>
+    <p class="hero-meta reveal in">B.S. GEOGRAPHY · NTU 2022–2026 · APPLYING FOR GRADUATE STUDY</p>
+  </div>
 
-  <main>
-    <section>
-      <div class="wrap hero">
-        <div class="heroCard">
-            <h1 class="name">Yu-Chi Su</h1>
+  <a class="scroll-hint" href="#projects">EXPLORE<span class="tick"></span></a>
 
-             <div class="hero-meta">
-                 <span>National Taiwan University</span>
-                 <span>Geography & Political Science</span>
-            </div>
+  <div class="pin-cursor" id="pin" aria-hidden="true">
+    <svg viewBox="0 0 30 42" width="30" height="42">
+      <path d="M15 0C6.7 0 0 6.7 0 15c0 11.2 15 27 15 27s15-15.8 15-27C30 6.7 23.3 0 15 0z" fill="#C8333A"/>
+      <circle cx="15" cy="14.5" r="5.6" fill="#F7F6F1"/>
+    </svg>
+  </div>
+</header>
 
-            <div class="tagline">Urban geomatics · spatial data · GIS analyst</div>
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="sec-eyebrow">Selected Work · 2024 — 2026</p>
+      <h2 class="sec-title">Five stops, one line of inquiry.</h2>
+      <p class="sec-lede">Each project asks how people experience and move through cities — and turns that question into models, maps, and working tools.</p>
+    </div>
 
-             <p class="lead">
-             I build spatial datasets, models, and tools to reveal how cities are actually used,
-             and where planning concepts fail in real urban contexts.
-            </p>
+    <!-- transit-style index -->
+    <nav class="route reveal" aria-label="Project index">
+      <div class="route-line"></div>
+      <ul class="route-stops">
+        <li class="route-stop" style="--stop-c:var(--l1)" data-target="p1"><a href="#p1"><span class="stop-dot"></span><span class="stop-label">Route Simulation</span></a></li>
+        <li class="route-stop" style="--stop-c:var(--l2)" data-target="p2"><a href="#p2"><span class="stop-dot"></span><span class="stop-label">15-Min Cities</span></a></li>
+        <li class="route-stop" style="--stop-c:var(--l3)" data-target="p3"><a href="#p3"><span class="stop-dot"></span><span class="stop-label">Urban Loading</span></a></li>
+        <li class="route-stop" style="--stop-c:var(--l4)" data-target="p4"><a href="#p4"><span class="stop-dot"></span><span class="stop-label">Night Lighting</span></a></li>
+        <li class="route-stop" style="--stop-c:var(--l5)" data-target="p5"><a href="#p5"><span class="stop-dot"></span><span class="stop-label">GeoLogger</span></a></li>
+      </ul>
+    </nav>
 
-            <div class="btnRow">
-              <a class="btn primary" href="#projects">View Projects</a>
-              <a class="btn" href="#research">Hong Kong Research</a>
-              <a class="btn" href="#contact">Contact</a>
-            </div>
+    <!-- 01 -->
+    <article class="project reveal" id="p1" style="--p-c:var(--l1)">
+      <div class="p-media">
+        <div class="tile" data-note="Image coming soon — add llmagent.png next to this file">
+          <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+          <img src="llmagent.png" alt="Street-view-aware route choice simulation interface" onerror="this.parentElement.classList.add('placeholder');this.remove()">
+        </div>
+        <div class="tile-caption"><span>FIG. 01 — AGENT NAVIGATION, DA'AN DISTRICT</span><span>25.026°N 121.534°E</span></div>
+      </div>
+      <div class="p-body">
+        <p class="p-eyebrow"><span class="line-chip"></span>01 · LLM × Agent-Based Modeling · 2026</p>
+        <h3>Street-View-Aware Route Choice Simulation with LLM Agents</h3>
+        <p class="p-desc">This project moves pedestrian simulation beyond shortest-path routing by introducing street-view perception into agent-based modeling. Through visual clustering and large language model agents, it simulates how different pedestrians may choose routes based on environmental experience, personal background, and memory.</p>
+        <p class="p-note">Supervised by Dr. Sun, City Science Lab @ Taipei Tech</p>
+        <ul class="p-tags"><li>LLM Agents</li><li>Street-View Imagery</li><li>Visual Clustering</li><li>Graph Routing</li><li>TypeScript</li></ul>
+        <div class="p-links">
+          <a class="btn primary" href="https://youtu.be/KtFG3UZPi_Y" target="_blank" rel="noopener">Watch live demo ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 -->
+    <article class="project flip reveal" id="p2" style="--p-c:var(--l2)">
+      <div class="p-media">
+        <div class="tile" data-note="Image coming soon — add hkresearch.png next to this file">
+          <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+          <img src="asset/hkresearch.png" alt="Spatial misfit analysis maps of Hong Kong" onerror="this.parentElement.classList.add('placeholder');this.remove()">
+        </div>
+        <div class="tile-caption"><span>FIG. 02 — MISFIT INDEX, HONG KONG SAR</span><span>22.302°N 114.177°E</span></div>
+      </div>
+      <div class="p-body">
+        <p class="p-eyebrow"><span class="line-chip"></span>02 · Spatial Analysis · 2025</p>
+        <h3>When 15-Minute Cities Fail: Diagnosing Spatial Misfit in High-Density Urban Contexts</h3>
+        <p class="p-desc">Using hourly GPS origin–destination data, grid-based accessibility indicators, and spatial statistics, this project shows that proximity does not guarantee use in a high-density, transit-oriented city — diagnosing where and why theoretical walking catchments fail to explain everyday mobility.</p>
+        <p class="p-note">Supervised by Dr. Tianren Yang, The University of Hong Kong</p>
+        <ul class="p-tags"><li>440k+ GPS Records</li><li>Gi* Hot-Spot Analysis</li><li>Multinomial Logit</li><li>Python / R / QGIS</li></ul>
+        <div class="p-links">
+          <a class="btn primary" href="asset/hkposter.pdf" target="_blank" rel="noopener">View research poster ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 -->
+    <article class="project reveal" id="p3" style="--p-c:var(--l3)">
+      <div class="p-media">
+        <div class="sash" role="note" aria-label="3rd Place, AI × Smart City Data Competition, Ministry of Economic Affairs, Taiwan">
+          <span class="sash-band">
+            <span class="r-place">3RD PLACE</span>
+            <span class="r-title">AI × Smart City Data Competition</span>
+            <span class="r-org">Ministry of Economic Affairs, TW</span>
+          </span>
+        </div>
+        <div class="tile" data-note="Image coming soon — add tploadarea.png next to this file">
+          <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+          <img src="asset/tploadarea.png" alt="Taipei loading-zone pressure dashboard" onerror="this.parentElement.classList.add('placeholder');this.remove()">
+        </div>
+        <div class="tile-caption"><span>FIG. 03 — LOADING-ZONE PRESSURE, TAIPEI</span><span>25.047°N 121.517°E</span></div>
+      </div>
+      <div class="p-body">
+        <p class="p-eyebrow"><span class="line-chip"></span>03 · Decision Support · 2025</p>
+        <h3>Smart Urban Loading Decision System</h3>
+        <p class="p-desc">A prototype decision-support system demonstrating a practical modeling-to-demo pipeline for urban logistics — a road-grid pressure model built from POI data, parking zones, hourly flows, and industry weights, delivered as an interactive WebGIS dashboard for scenario planning.</p>
+        <p class="p-note">In collaboration with Chang-You Ho</p>
+        <ul class="p-tags"><li>Supply–Demand Modeling</li><li>POI Data</li><li>WebGIS Dashboard</li><li>Scenario Simulation</li></ul>
+        <div class="p-links">
+          <a class="btn primary" href="https://taipeinative.github.io/taipei-parking/web/" target="_blank" rel="noopener">Open live demo ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 -->
+    <article class="project flip reveal" id="p4" style="--p-c:var(--l4)">
+      <div class="p-media">
+        <div class="tile" data-note="Image coming soon — add nightmap.png next to this file">
+          <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+          <img src="asset/nightmap.png" alt="NTU night-time lighting map" onerror="this.parentElement.classList.add('placeholder');this.remove()">
+        </div>
+        <div class="tile-caption"><span>FIG. 04 — CAMPUS LIGHT ENVIRONMENT, NTU</span><span>25.017°N 121.539°E</span></div>
+      </div>
+      <div class="p-body">
+        <p class="p-eyebrow"><span class="line-chip"></span>04 · Field Data × WebGIS · 2025</p>
+        <h3>NTU Night-time Lighting Map</h3>
+        <p class="p-desc">An interactive map documenting campus lighting conditions to support pedestrian safety in a data-poor infrastructure context — field observation turned into actionable, campus-scale evidence.</p>
+        <p class="p-note">In collaboration with Goodman Chen</p>
+        <ul class="p-tags"><li>GPS-Linked Measurement</li><li>Pedestrian Safety</li><li>Safe-Route Mapping</li><li>WebGIS</li></ul>
+        <div class="p-links">
+          <a class="btn primary" href="https://geopeper.github.io/ntu_light_map/" target="_blank" rel="noopener">Open live demo ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 05 -->
+    <article class="project reveal" id="p5" style="--p-c:var(--l5)">
+      <div class="p-media">
+        <div class="tile" data-note="Image coming soon — add geologger.png next to this file">
+          <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+          <img src="asset/geologger.png" alt="GeoLogger iOS app" onerror="this.parentElement.classList.add('placeholder');this.remove()">
+        </div>
+        <div class="tile-caption"><span>FIG. 05 — FIELD NOTES, ANYWHERE</span><span>φ, λ — YOUR LOCATION</span></div>
+      </div>
+      <div class="p-body">
+        <p class="p-eyebrow"><span class="line-chip"></span>05 · iOS App · 2025</p>
+        <h3>GeoLogger</h3>
+        <p class="p-desc">An iOS app for collecting location-linked field notes — bridging the gap between field observation and spatial analysis in urban research.</p>
+        <ul class="p-tags"><li>Swift / Xcode</li><li>Field Data Collection</li><li>GPS Tagging</li><li>Published on App Store</li></ul>
+        <div class="p-links">
+          <a class="btn primary" href="https://apps.apple.com/tw/app/geologger/id6756638045" target="_blank" rel="noopener">View on App Store ↗</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ================= CV ================= -->
+<section id="cv">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="sec-eyebrow">Curriculum Vitae</p>
+      <h2 class="sec-title">Background</h2>
+    </div>
+
+    <div class="cv-grid">
+      <div>
+        <div class="cv-block reveal">
+          <p class="cv-label">Education</p>
+          <p class="edu-school">National Taiwan University</p>
+          <p class="edu-degree">B.S. in Geography · 2022 – 2026</p>
+          <p class="edu-gpa">GPA 4.07 / 4.3 · Top 6%</p>
+          <div class="edu-courses">
+            <strong>Relevant coursework</strong>
+            Cartography &amp; GIS · Spatial Analysis · Statistics · WebGIS · Transport Geography · Machine Learning
+          </div>
+          <div class="edu-exchange">
+            <p class="edu-school">Leiden University, The Netherlands</p>
+            <p class="edu-degree">Exchange Student · Feb – Jun 2025</p>
+          </div>
         </div>
 
-        <div class="heroMedia" aria-label="Hero image">
-          <img class="hero-img" src="asset/hk15minisochone.png" alt="Hero visualization">
+        <div class="cv-block reveal">
+          <p class="cv-label">Skills</p>
+          <div class="skill-group">
+            <h4>AI &amp; Programming</h4>
+            <ul class="chips"><li>Python</li><li>GeoPandas</li><li>Scikit-learn</li><li>PyTorch</li><li>OpenAI API</li><li>Prompt Engineering</li></ul>
+          </div>
+          <div class="skill-group">
+            <h4>Geospatial Tools</h4>
+            <ul class="chips"><li>QGIS</li><li>ArcGIS Pro</li><li>WebGIS</li><li>Map-Oriented Data Workflows</li></ul>
+          </div>
+          <div class="skill-group">
+            <h4>Languages</h4>
+            <ul class="chips"><li>Mandarin — native</li><li>English — fluent</li></ul>
+          </div>
         </div>
       </div>
 
-      <div class="wrap" style="padding-top:18px;">
-        <div class="core">
-          <div class="callout">
-            <strong>Core question</strong>
-            <p style="margin:0;">
-              Cities are often planned using abstract spatial models, while everyday movement, safety, and lighting
-              remain poorly measured. I build human-scale spatial evidence to test where models fail and why.
-            </p>
-          </div>
-          <div class="callout">
-            <strong>What you can verify</strong>
-            <p style="margin:0;">
-              Live demos, an App Store release, an interactive WebGIS map, and a research poster with maps and models.
-            </p>
-          </div>
-        </div>
+      <div class="cv-block reveal">
+        <p class="cv-label">Selected Roles</p>
+        <ul class="timeline">
+          <li>
+            <p class="tl-year">2026 — Present</p>
+            <p class="tl-role">Summer Research Intern</p>
+            <p class="tl-org">City Science Lab @ Taipei Tech</p>
+          </li>
+          <li>
+            <p class="tl-year">2025 — Present</p>
+            <p class="tl-role">Member</p>
+            <p class="tl-org">Taipei Youth Affairs Advisory Committee</p>
+          </li>
+          <li>
+            <p class="tl-year">2025</p>
+            <p class="tl-role">Summer Research Intern</p>
+            <p class="tl-org">Department of Urban Planning, The University of Hong Kong</p>
+          </li>
+          <li>
+            <p class="tl-year">2024</p>
+            <p class="tl-role">Vice President</p>
+            <p class="tl-org">NTU Student Association — campus planning &amp; transport</p>
+          </li>
+        </ul>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section id="projects">
-      <div class="wrap">
-        <div class="kicker">Selected work</div>
-        <h2>Projects</h2>
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <h2>Let's plot the next point.</h2>
+    <p>Open to graduate research opportunities in GIS, transport, and urban analytics across Europe and North America.</p>
+    <div class="contact-links">
+      <a class="btn primary" style="--p-c:var(--l1)" href="mailto:a1050336@gmail.com">Email me</a>
+      <a class="btn" href="https://github.com/geopeper" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn" href="https://www.linkedin.com/in/yuchi-su" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+  </div>
+  <div class="footer-line">
+    <span>© 2026 YUCHI SU</span>
+    <span>BUILT IN TAIPEI · 25.0330° N, 121.5654° E</span>
+  </div>
+</section>
 
-        <div class="projects">
+<script>
+/* nav border on scroll */
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 10), {passive:true});
 
-          <article class="featured">
-            <div class="media">
-              <img class="banner-img" src="asset/hkresearch.png" alt="HK Research Banner">
-            </div>
-            <div class="body">
-              <div class="kicker">Research project</div>
-              <h3>When 15-Minute Cities Fail: Diagnosing Spatial Misfit in High-Density Urban Contexts</h3>
-              <p>
-                Using hourly GPS origin–destination data, grid-based accessibility indicators, and spatial statistics,
-                this project shows that proximity does not guarantee use in a high-density, transit-oriented city.
-                It diagnoses where and why theoretical walking catchments fail to explain everyday mobility.
-              </p>
-              <div style="font-size:13px; color:var(--muted); margin-bottom:16px; font-style:italic;">
-                 Supervised by Dr. Tianren Yang, The University of Hong Kong
-              </div>
-              <div class="chips">
-                <span class="chip">GPS OD data</span>
-                <span class="chip">Isochrones</span>
-                <span class="chip">Grid indicators</span>
-                <span class="chip">Spatial analysis</span>
-                <span class="chip">Multinomial logit</span>
-              </div>
-              <div class="btnRow">
-                <a class="btn primary" href="#research">View research page</a>
-                <a class="btn" href="asset/hkposter.pdf" target="_blank" rel="noopener">Download poster (PDF)</a>
-              </div>
-            </div>
-          </article>
+/* scroll reveal */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+}), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-          <div class="grid3">
+/* route diagram scrollspy */
+const stops = [...document.querySelectorAll('.route-stop')];
+const spy = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){
+    stops.forEach(s => s.classList.toggle('active', s.dataset.target === e.target.id));
+  }
+}), {rootMargin:'-35% 0px -55% 0px'});
+document.querySelectorAll('.project').forEach(p => spy.observe(p));
 
-            <article class="card">
-              <div class="media">
-                <img class="below-img" src="asset/tploadarea.png" alt="Loading zone decision system">
-              </div>
-              <div class="body">
-                <div class="kicker">Competition</div>
-                <h3 style="margin-bottom:6px;">Smart Urban Loading Decision System</h3>
-                
-                <div style="margin-bottom:4px; font-size:13px; color:#b45309; font-weight:400; line-height:1.4;">
-                   3rd Place, AI x Smart City Data Competition (Ministry of Economic Affairs, Taiwan)
-                </div>
+/* ---- site-wide pin cursor ---- */
+const pin   = document.getElementById('pin');
+const finePointer = matchMedia('(pointer:fine)').matches;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-                <p style="margin-bottom:6px;">
-                  A prototype decision-support system demonstrating a practical modeling-to-demo pipeline for urban logistics.
-                </p>
+if (finePointer){
+  document.body.classList.add('fine-pointer');
+  document.addEventListener('mousemove', e => {
+    pin.style.left = e.clientX + 'px';
+    pin.style.top  = e.clientY + 'px';
+    pin.classList.add('on');
+    pin.classList.toggle('lift', !!e.target.closest('a'));
+  });
+  document.addEventListener('mouseout', e => {
+    if (!e.relatedTarget) pin.classList.remove('on');
+  });
+  window.addEventListener('blur', () => pin.classList.remove('on'));
+}
 
-                <div style="font-size:13px; color:var(--muted); margin-bottom:12px; font-style:italic;">
-                   In collaboration with Chang-You Ho
-                </div>
+/* ---- hero: light-rail trains growing along the roads ---- */
+if (!reduceMotion){
+  const trainsG = document.getElementById('trains');
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  /* routes follow the drawn arterials / diagonal avenue */
+  const routes = [
+    'M0 260H1440',
+    'M0 530H1440',
+    'M300 0V900',
+    'M570 0V900',
+    'M840 0V900',
+    'M1110 0V900',
+    'M-40 860 L620 300 L1480 120'
+  ];
+  const colors = ['#C8333A','#DD7A2F','#2D6CB5','#51489B','#3E8A5E'];
+  let activeTrains = 0;
 
-                <div class="btnRow">
-                  <a class="btn primary" href="https://taipeinative.github.io/taipei-parking/web/" target="_blank" rel="noopener">Live Demo</a>
-                  <a class="btn" href="https://youtu.be/b_DjMk-42F0" target="_blank" rel="noopener">Video</a>
-                </div>
-                <div class="meta">
-                  <span>Model demo</span><span>Decision support</span>
-                </div>
-              </div>
-            </article>
+  function spawnTrain(){
+    if (document.hidden || activeTrains >= 2){ schedule(); return; }
+    activeTrains++;
 
-            <article class="card">
-              <div class="media">
-                <img class="below-img" src="asset/nightmap.png" alt="Night map">
-              </div>
-              <div class="body">
-                <div class="kicker">WebGIS</div>
-                <h3>NTU Night-time Lighting Map</h3>
-                <p>
-                An interactive map documenting campus lighting conditions to support pedestrian safety in a data-poor infrastructure context. Combines field observations with spatial visualization to produce actionable evidence for campus-scale planning decisions.        
-                </p>
-                <div class="btnRow">
-                  <a class="btn primary" href="https://geopeper.github.io/ntu_light_map/" target="_blank" rel="noopener">Live demo</a>
-                </div>
-                <div class="meta">
-                  <span>Interactive map</span><span>Evidence</span>
-                </div>
-              </div>
-            </article>
+    const path = document.createElementNS(SVG_NS,'path');
+    path.setAttribute('d', routes[Math.floor(Math.random()*routes.length)]);
+    path.setAttribute('stroke', colors[Math.floor(Math.random()*colors.length)]);
+    path.setAttribute('stroke-width', 6);
+    path.setAttribute('opacity', .85);
+    trainsG.appendChild(path);
 
-            <article class="card">
-              <div class="media">
-                <img class="below-img" src="asset/geologger.png" alt="GeoLogger App">
-              </div>
-              <div class="body">
-                <div class="kicker">iOS app</div>
-                <h3>GeoLogger</h3>
-                <p>
-                An iOS app for collecting location-linked field notes to support human-scale data collection workflows.
-                Designed to bridge the gap between field observation and spatial analysis in urban research.                </p>
-                <div class="btnRow">
-                  <a class="btn primary" href="https://apps.apple.com/tw/app/geologger/id6756638045" target="_blank" rel="noopener">App Store</a>
-                </div>
-                <div class="meta">
-                  <span>Swift</span><span>Data collection tool</span>
-                </div>
-              </div>
-            </article>
-            
-          </div>
-        </div>
-      </div>
-    </section>
+    const L = path.getTotalLength();
+    const trainLen = 150 + Math.random()*120;   // carriage length
+    const speed = 380 + Math.random()*180;      // px / s
+    path.setAttribute('stroke-dasharray', `0.01 ${L + trainLen}`);
+    const total = L + trainLen;
+    const reverse = Math.random() < .5;
+    const t0 = performance.now();
 
-    <section id="research">
-    <div class="wrap">
-        <div class="kicker">Research highlight</div>
-        <h2>When 15-Minute Cities Fail: <br>
-            Diagnosing Spatial Misfit in High-Density Urban Contexts</h2>
-        <div class="researchLayout">
-        <div>
-            <div class="callout">
-            <strong>Claim</strong>
-            <p style="margin:0;">
-                In high-density, transit-oriented cities, walkable proximity alone can misrepresent daily mobility.
-                This study tests the 15-minute model against real hourly movement behavior, revealing systematic mismatches between modeled accessibility and actual travel patterns.
-            </p>
-            </div>
-
-            <div class="fig">
-            <img class="hk-banner-img" src="asset/hkresearchbanner.png" alt="Figure 1">
-            <div class="cap">
-                Figure 1. Spatial misfit between theoretical 15-minute walking catchments and observed trips.
-            </div>
-            </div>
-
-            <div class="twoCols">
-            <div class="fig">
-                <img class="hk-below-img" src="asset/hk15mingi.png" alt="Figure 2">
-                <div class="cap">Figure 2. Hotspots of persistent misfit identified via Gi* statistics.</div>
-            </div>
-            <div class="fig">
-                <img class="hk-below-img" src="asset/hk15minregression.png" alt="Figure 3">
-                <div class="cap">Figure 3. Regression Analysis of Key Correlates of Spatial Misfit (simplified).</div>
-            </div>
-            </div>
-        </div>
-
-        <div>
-            <aside class="callout" style="margin-bottom: 18px;"> <strong>Method snapshot</strong>
-            <ul class="list">
-                <li><b>Data:</b> Hourly GPS OD (origin–destination) data, POIs, Geographic variables & Census data</li>
-                <li><b>Indicators:</b> Grid-based accessibility, 15-min walking isochrones</li>
-                <li><b>Spatial analysis:</b> Misfit index, Gi* hotspot analysis</li>
-                <li><b>Modeling:</b> Multinomial logistic regression</li>
-                <li><b>Output:</b> Maps + poster + interpretable narrative</li>
-            </ul>
-            </aside>
-
-            <div class="callout">
-            <strong>Interpretation</strong>
-            <p style="margin:0;">
-                The results suggest that “access” is not equivalent to “use” when transit systems,
-                density, and functional specialization reshape daily activity spaces. <br>
-                This reframes how 15-minute indicators should be interpreted in Asian high-density contexts.
-            </p>
-
-            <div style="height:12px;"></div>
-
-            <div style="border-top:1px solid var(--line); padding-top:12px; margin-top:4px;">
-                <strong style="font-size:16px;">Files</strong>
-                <div class="btnRow" style="margin-top:12px;">
-                <a class="btn primary" href="asset/hkposter.pdf" target="_blank" rel="noopener">Poster (PDF)</a>
-                <a class="btn" href="#projects">Back to projects</a>
-                </div>
-            </div>
-        </div>
-        
-        </div> </div>
-    </section>
-
-    <section id="cv">
-      <div class="wrap">
-        <div class="kicker">Background</div>
-        <h2>CV (quick view)</h2>
-
-        <div class="cvGrid">
-          <div class="cvItem">
-            <h3>Education</h3>
-            
-            <div style="margin-bottom:14px;">
-              <div style="font-weight:700; font-size:16px; margin-bottom:2px; color:var(--text);">
-                National Taiwan University
-              </div>
-              <div class="edu-sub" style="color: var(--muted); line-height: 1.6;">
-                B.S. in Geography & Political Science (Double major) <br>
-                2022–2026 (expected)
-              </div>
-            </div>
-
-            <p style="margin-bottom:12px;">
-              <strong>GPA:</strong> 4.07 / 4.3 (Top 6%)
-            </p>
-
-            <p style="margin-bottom:4px;">
-              <strong>Relvant:</strong>
-            </p>            
-            <div class="chips" style="margin-top:0;">
-              <span class="chip">Cartography & GIS</span>
-              <span class="chip">Spatial Analysis</span>
-              <span class="chip">Statistics</span>
-              <span class="chip">WebGIS</span>
-              <span class="chip">Transport Geography</span>
-              <span class="chip">Machine Learning</span>
-            </div>
-          </div>
-          <div class="cvItem">
-            <h3>Selected roles</h3>
-            <ul class="list">
-              <li>2025-Present, Member @ Taipei Youth Affairs Advisory Committee</li>
-              <li>2025, Summer Research Intern @ Department of Urban Planning, The University of Hong Kong</li>
-              <li>2024, Vice President @ NTU Student Association (focusing on campus planning & transport)</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="btnRow" style="margin-top:14px;">
-          <a class="btn primary" href="asset/general_resume.pdf" target="_blank" rel="noopener">Download resume (PDF)</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="skills">
-      <div class="wrap">
-        <div class="kicker">Appendix</div>
-        <h2>Skills</h2>
-
-        <div class="cvGrid">
-          <div class="cvItem">
-            <h3>Spatial & urban analysis</h3>
-            <div class="chips">
-              <span class="chip">GIS</span>
-              <span class="chip">Accessibility</span>
-              <span class="chip">Network / isochrones</span>
-              <span class="chip">Spatial statistics</span>
-              <span class="chip">Regression models</span>
-            </div>
-          </div>
-          <div class="cvItem">
-            <h3>Data & systems</h3>
-            <div class="chips">
-              <span class="chip">Python</span>
-              <span class="chip">R</span>
-              <span class="chip">Data cleaning</span>
-              <span class="chip">Web workflows</span>
-              <span class="chip">Swift (iOS)</span>
-            </div>
-          </div>
-          <div class="cvItem">
-            <h3>Visualization & delivery</h3>
-            <div class="chips">
-              <span class="chip">WebGIS</span>
-              <span class="chip">Interactive maps</span>
-              <span class="chip">Dashboards</span>
-              <span class="chip">Poster / figures</span>
-              <span class="chip">Demos</span>
-            </div>
-          </div>
-          <div class="cvItem">
-            <h3>Languages</h3>
-            <div class="chips">
-              <span class="chip">Mandarin</span>
-              <span class="chip">English</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="wrap">
-        <div class="kicker">Get in touch</div>
-        <h2>Contact</h2>
-
-        <div class="btnRow">
-          <a class="btn primary" href="https://www.linkedin.com/in/yu-chi-su-b26811320" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="btn" href="https://github.com/geopeper" target="_blank" rel="noopener">GitHub</a>
-        </div>
-
-        <footer>
-          © <span id="y"></span> Yu-Chi Su · Built with GitHub Pages <br>
-          Last updated: December 2025
-        </footer>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
-  
+    function step(now){
+      const head = Math.min((now - t0)/1000 * speed, total);
+      const tail = Math.max(0, head - trainLen);
+      const visStart = reverse ? L - Math.min(L, head) : tail;
+      const visLen   = Math.min(L, head) - tail;
+      path.setAttribute('stroke-dasharray', `${Math.max(visLen,0.01)} ${L + trainLen}`);
+      path.setAttribute('stroke-dashoffset', -visStart);
+      if (head < total){
+        requestAnimationFrame(step);
+      } else {
+        path.remove();
+        activeTrains--;
+      }
+    }
+    requestAnimationFrame(step);
+    schedule();
+  }
+  function schedule(){
+    setTimeout(spawnTrain, 1200 + Math.random()*800);
+  }
+  setTimeout(spawnTrain, 600);
+}
+</script>
 </body>
 </html>
